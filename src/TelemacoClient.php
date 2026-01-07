@@ -100,6 +100,8 @@ class TelemacoClient
             'cookies' => $this->browser->getCookieJar()->all()
         ]);
 
+        //$response = $this->browser->getResponse();
+
         $diritti = $this->browser->getCrawler()->filter("div.saldoCifra");
 
         $diritti_formatted = '0.0';

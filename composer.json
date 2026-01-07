@@ -1,6 +1,6 @@
 {
   "name": "infocamere/telemaco",
-  "version": "1.8.2",
+  "version": "1.9.0",
   "type": "library",
   "description": "Utilità per il servizio Telemaco",
   "homepage": "https://github.com/ibsve/telemaco",
