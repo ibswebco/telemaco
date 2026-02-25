@@ -106,7 +106,7 @@ class TelemacoClient
             $diritti_formatted = '0.0';
 
             if ($diritti->count() > 0) {
-                $diritti_formatted = trim(Str::before(Str::replaceFirst(',', '.', Str::replaceFirst('.', '', $diritti->first()->text())), '€'));
+                $dirittiText = $diritti->first()->text();
             }
             else {
                 $this->browser->request('GET', 'https://mypage.infocamere.it/group/telemacoufficio/saldo', [
@@ -116,15 +116,17 @@ class TelemacoClient
                 $diritti = $this->browser->getCrawler()->filter("div.saldoCifra");
 
                 if ($diritti->count() > 0) {
-                    $diritti_formatted = trim(Str::before(Str::replaceFirst(',', '.', Str::replaceFirst('.', '', $diritti->first()->text())), '€'));
+                   $dirittiText = $diritti->first()->text();
                 }
             }
         }
         else {
-            $diritti_formatted = 0.0;
+            $dirittiText = $this->browser->getCrawler()->filter("td[width='125px']")->last()->text();
         }
 
         //$response = $this->browser->getResponse();
+
+        $diritti_formatted = trim(Str::before(Str::replaceFirst(',', '.', Str::replaceFirst('.', '', $dirittiText)), '€'));
 
         return (float) $diritti_formatted;
     }
