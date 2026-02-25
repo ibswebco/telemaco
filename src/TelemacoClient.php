@@ -96,30 +96,35 @@ class TelemacoClient
 
         return Str::substr($diritti, 2);*/
 
-        $this->browser->request('GET', 'https://mypage.infocamere.it/group/telemacopay/saldo', [
+        $response = $this->browser->request('GET', 'https://mypage.infocamere.it/group/telemacopay/saldo', [
             'cookies' => $this->browser->getCookieJar()->all()
         ]);
 
-        //$response = $this->browser->getResponse();
-
-        $diritti = $this->browser->getCrawler()->filter("div.saldoCifra");
-
-        $diritti_formatted = '0.0';
-
-        if ($diritti->count() > 0) {
-            $diritti_formatted = trim(Str::before(Str::replaceFirst(',', '.', Str::replaceFirst('.', '', $diritti->first()->text())), '€'));
-        }
-        else {
-            $this->browser->request('GET', 'https://mypage.infocamere.it/group/telemacoufficio/saldo', [
-                'cookies' => $this->browser->getCookieJar()->all()
-            ]);
-
+        if ($response->getStatusCode() == 200) {
             $diritti = $this->browser->getCrawler()->filter("div.saldoCifra");
+
+            $diritti_formatted = '0.0';
 
             if ($diritti->count() > 0) {
                 $diritti_formatted = trim(Str::before(Str::replaceFirst(',', '.', Str::replaceFirst('.', '', $diritti->first()->text())), '€'));
             }
+            else {
+                $this->browser->request('GET', 'https://mypage.infocamere.it/group/telemacoufficio/saldo', [
+                    'cookies' => $this->browser->getCookieJar()->all()
+                ]);
+
+                $diritti = $this->browser->getCrawler()->filter("div.saldoCifra");
+
+                if ($diritti->count() > 0) {
+                    $diritti_formatted = trim(Str::before(Str::replaceFirst(',', '.', Str::replaceFirst('.', '', $diritti->first()->text())), '€'));
+                }
+            }
         }
+        else {
+            $diritti_formatted = 0.0;
+        }
+
+        //$response = $this->browser->getResponse();
 
         return (float) $diritti_formatted;
     }
