@@ -92,11 +92,7 @@ class TelemacoClient
      */
     public function fondo()
     {      
-        /*$diritti = $this->browser->getCrawler()->filter("td[width='125px']")->last()->text();
-
-        return Str::substr($diritti, 2);*/
-
-        $response = $this->browser->request('GET', 'https://mypage.infocamere.it/group/telemacopay/saldo', [
+        /*$response = $this->browser->request('GET', 'https://mypage.infocamere.it/group/telemacopay/saldo', [
             'cookies' => $this->browser->getCookieJar()->all()
         ]);
 
@@ -122,13 +118,13 @@ class TelemacoClient
         }
         else {
             $dirittiText = $this->browser->getCrawler()->filter("td[width='125px']")->last()->text();
-        }
+        }*/
 
-        //$response = $this->browser->getResponse();
+        $dirittiText = mb_convert_encoding($this->browser->getCrawler()->filter("td[width='125px']")->last()->text(), "ISO-8859-1");
 
-        $diritti_formatted = trim(Str::before(Str::replaceFirst(',', '.', Str::replaceFirst('.', '', $dirittiText)), '€'));
+        $diritti_formatted = Str::substr(Str::replaceFirst(',', '.', Str::replaceFirst('.', '', $dirittiText)), 2);//trim(Str::before(Str::replaceFirst(',', '.', Str::replaceFirst('.', '', $dirittiText)), '€'));
 
-        return (float) $diritti_formatted;
+        return $diritti_formatted;
     }
 
     /**
