@@ -122,9 +122,9 @@ class TelemacoClient
 
         $dirittiText = mb_convert_encoding($this->browser->getCrawler()->filter("td[width='125px']")->last()->text(), "ISO-8859-1");
 
-        $diritti_formatted = Str::substr(Str::replaceFirst(',', '.', Str::replaceFirst('.', '', $dirittiText)), 2);//trim(Str::before(Str::replaceFirst(',', '.', Str::replaceFirst('.', '', $dirittiText)), '€'));
+        $diritti_formatted = Str::substr(Str::replaceFirst(',', '.', Str::replaceFirst('.', '', $dirittiText)), 2);
 
-        return $diritti_formatted;
+        return (float) $diritti_formatted;
     }
 
     /**
