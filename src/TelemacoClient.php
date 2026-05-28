@@ -146,7 +146,7 @@ class TelemacoClient
             }
         }
 
-        return json_encode(['tipo_conto' => $cnt]);
+        return ['tipo_conto' => $cnt];
     }
 
     /**
