@@ -131,12 +131,12 @@ class TelemacoClient
     {
         $cnt = null;
 
-        $response = $this->browser->request('GET', 'https://mypage.infocamere.it/group/telemacopay/saldo', [
+        $response = $this->browser->request('GET', 'https://mypage.infocamere.it/group/telemacopay', [
             'cookies' => $this->browser->getCookieJar()->all()
         ]);
 
         if ($response->count() > 0) {
-            $conto = $diritti = $this->browser->getCrawler()->filter("#p_13_WAR_accountportlet")->text();
+            $conto = $this->browser->getCrawler()->filter("div#p_p_id_13_WAR_accountportlet_")->text();
             
             if (str_contains(strtolower($conto), 'iconto')) {
                 $cnt = 'iconto';
@@ -146,7 +146,7 @@ class TelemacoClient
             }
         }
 
-        return ['tipo_conto' => $cnt];
+        return $cnt;
     }
 
     /**
