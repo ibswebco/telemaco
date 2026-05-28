@@ -135,7 +135,7 @@ class TelemacoClient
             'cookies' => $this->browser->getCookieJar()->all()
         ]);
 
-        if ($response) {
+        if (! str_contains(strtolower($response->text()), 'trovato')) {
             $conto = $this->browser->getCrawler()->filter("div#p_p_id_13_WAR_accountportlet_")->text();
             
             if (str_contains(strtolower($conto), 'iconto')) {
