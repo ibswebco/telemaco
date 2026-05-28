@@ -127,6 +127,28 @@ class TelemacoClient
         return (float) $diritti_formatted;
     }
 
+    public function tipoConto()
+    {
+        $cnt = null;
+
+        $response = $this->browser->request('GET', 'https://mypage.infocamere.it/group/telemacopay/saldo', [
+            'cookies' => $this->browser->getCookieJar()->all()
+        ]);
+
+        if ($response->getStatusCode() == 200) {
+            $conto = $diritti = $this->browser->getCrawler()->filter("#p_13_WAR_accountportlet")->text();
+            
+            if (str_contains(strtolower($conto), 'iconto')) {
+                $cnt = 'iconto';
+            }
+            else {
+                $cnt = 'telemaco';
+            }
+        }
+
+        return json_encode(['tipo_conto' => $cnt]);
+    }
+
     /**
      * Scarica da Cert'ò la distinta camerale
      * 
