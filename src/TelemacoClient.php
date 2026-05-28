@@ -141,7 +141,8 @@ class TelemacoClient
             if (str_contains(strtolower($conto), 'iconto')) {
                 $cnt = 'iconto';
             }
-            else {
+            
+            if (str_contains(strtolower($conto), 'd:')) {
                 $cnt = 'telemaco';
             }
         }
