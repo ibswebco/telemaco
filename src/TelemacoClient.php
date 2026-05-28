@@ -135,7 +135,7 @@ class TelemacoClient
             'cookies' => $this->browser->getCookieJar()->all()
         ]);
 
-        if ($response->getStatusCode() == 200) {
+        if ($response->count() > 0) {
             $conto = $diritti = $this->browser->getCrawler()->filter("#p_13_WAR_accountportlet")->text();
             
             if (str_contains(strtolower($conto), 'iconto')) {
