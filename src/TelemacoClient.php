@@ -131,20 +131,22 @@ class TelemacoClient
     {
         $cnt = null;
 
-        $response = $this->browser->request('GET', 'https://mypage.infocamere.it/group/telemacopay', [
+        $response = $this->browser->request('GET', 'https://mypage.infocamere.it/group/telemacoufficio', [
             'cookies' => $this->browser->getCookieJar()->all()
         ]);
 
         if (! str_contains(strtolower($response->text()), 'trovato')) {
-            $conto = $this->browser->getCrawler()->filter("div#p_p_id_13_WAR_accountportlet_")->text();
+            $conto = $this->browser->getCrawler()->filter("input#_13_WAR_accountportlet_modalitaPagamento")->first()->attr("value");
+            //<input class="field" id="_13_WAR_accountportlet_modalitaPagamento" name="_13_WAR_accountportlet_modalitaPagamento" type="hidden" value="IDP"> iConto
+            //<input class="field" id="_13_WAR_accountportlet_modalitaPagamento" name="_13_WAR_accountportlet_modalitaPagamento" type="hidden" value="BOEL"> borsellino Telemaco
             
-            if (str_contains(strtolower($conto), 'iconto')) {
-                $cnt = 'iconto';
-            }
-            
-            if (str_contains(strtolower($conto), 'd:')) {
-                $cnt = 'telemaco';
-            }
+            $v = strtolower($conto);
+
+            $cnt = match ($v) {
+                'idp' => 'iconto',
+                'boel' => 'telemaco',
+                default => null,
+            };
         }
 
         return $cnt;
