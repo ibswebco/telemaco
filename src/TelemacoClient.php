@@ -32,7 +32,8 @@ class TelemacoClient
     {
         $message = json_decode('{"data":null,"codError":null,"message":null,"result":null}');
 
-        $this->browser->request('GET', 'https://praticacdor.infocamere.it/ptco/common/Login.action');
+        //$this->browser->request('GET', 'https://praticacdor.infocamere.it/ptco/common/Login.action');
+        $this->browser->request('GET', 'https://mypage.infocamere.it/c/portal/login');
         $this->browser->submitForm('Accedi', ['userid' => $username, 'password' => $password]);
 
         $text = $this->browser->getCrawler()->filter('body')->text();
