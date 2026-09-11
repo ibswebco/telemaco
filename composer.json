@@ -25,11 +25,5 @@
     "allow-plugins": {
       "pestphp/pest-plugin": true
     }
-  },
-  "authors": [
-        {
-             "name": "Marco Simonetti",
-             "email": "info@ibssas.it"
-        }
-  ],
+  }
 }
